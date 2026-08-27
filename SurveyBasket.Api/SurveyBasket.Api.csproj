@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Controllers\DevelopmentsController.cs~RF851a03ff.TMP" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.9" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="10.2.3" />
   </ItemGroup>

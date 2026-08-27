@@ -13,8 +13,11 @@ builder.Services.AddSwaggerGen();
 
 
 //Register the Dependency Injection
-builder.Services.AddScoped<IOS, WindowsOsService>();
+//builder.Services.AddScoped<IOS, WindowsOsService>();
 
+builder.Services.AddTransient<IOperationTransient, WindowsOsService>();
+builder.Services.AddScoped<IOperationScoped, WindowsOsService>();
+builder.Services.AddSingleton<IOperationSingleton, WindowsOsService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
