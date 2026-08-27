@@ -1,3 +1,4 @@
+using SurveyBasket.Api.Middlewares;
 using SurveyBasket.Api.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -33,6 +34,18 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+//var logger = app.Logger;
+//
+//app.Use(async (context, next) =>
+//{
+//    logger.LogInformation("Processing request");
+//    await next(context);
+//    logger.LogInformation("Processing Response");
+//
+//});
+
+app.UseCustomMiddleware();
 
 app.UseHttpsRedirection();
 

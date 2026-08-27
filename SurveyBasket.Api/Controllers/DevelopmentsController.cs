@@ -34,7 +34,7 @@ namespace SurveyBasket.Api.Controllers
           //_logger.LogInformation("Scoped: {OperationId}", _operationScoped.OperationId);
           // _logger.LogInformation("Singleton: {OperationId}", _operationSingleton.OperationId);
 
-            _logger.LogWarning("Transient: {OperationId}", windowsService.OperationId);
+          //  _logger.LogWarning("Transient: {OperationId}", windowsService.OperationId);
             _logger.LogError("MacOs {0}", macOsService.OperationId);
             return Ok();
         }
