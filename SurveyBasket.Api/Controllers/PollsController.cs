@@ -28,6 +28,13 @@ namespace SurveyBasket.Api.Controllers
 
             return poll is null ? NotFound("Poll is not Found") : Ok(poll);
         }
+
+        [HttpPost("")]
+        public IActionResult Add(Poll request)
+        {
+            var newPoll = _pollService.Add(request);
+            return CreatedAtAction(nameof(Get), new { id = newPoll.Id }, newPoll);
+        }
        
     }
 }
