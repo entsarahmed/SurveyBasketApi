@@ -46,7 +46,13 @@ namespace SurveyBasket.Api.Controllers
             return NoContent();
         }
 
-
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id) {
+            var isDeleted = _pollService.Delete(id);
+            if (!isDeleted)
+                return NotFound();
+            return NoContent();
+        }
 
     }
 }

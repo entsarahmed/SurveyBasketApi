@@ -38,5 +38,14 @@ namespace SurveyBasket.Api.Services
             return true;
 
         }
+
+        public bool Delete(int id)
+        {
+            var poll = Get(id);
+            if (poll is null)
+                return false;
+            _polls.Remove(poll);
+            return true;
+        }
     }
 }
