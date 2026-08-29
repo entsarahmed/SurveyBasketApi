@@ -27,5 +27,16 @@ namespace SurveyBasket.Api.Services
             _polls.Add(poll);
             return poll;
         }
+
+        public bool Update(int id, Poll poll)
+        {
+            var currentPoll = Get(id);
+            if (currentPoll is null)
+                return false;
+            currentPoll.Title = poll.Title;
+            currentPoll.Description = poll.Description;
+            return true;
+
+        }
     }
 }

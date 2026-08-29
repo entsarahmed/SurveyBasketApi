@@ -35,6 +35,18 @@ namespace SurveyBasket.Api.Controllers
             var newPoll = _pollService.Add(request);
             return CreatedAtAction(nameof(Get), new { id = newPoll.Id }, newPoll);
         }
-       
+
+        [HttpPut("{id}")]
+        public IActionResult Update(int id, Poll request)
+        {
+          var isUpdated =  _pollService.Update(id, request);
+
+            if (!isUpdated)
+                return NotFound();
+            return NoContent();
+        }
+
+
+
     }
 }
