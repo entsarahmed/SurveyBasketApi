@@ -14,15 +14,7 @@ builder.Services.AddSwaggerGen();
 
 
 //Register the Dependency Injection
-//builder.Services.AddScoped<IOS, WindowsOsService>();
-
-//builder.Services.AddTransient<IOperationTransient, WindowsOsService>();
-//builder.Services.AddScoped<IOperationScoped, WindowsOsService>();
-//builder.Services.AddSingleton<IOperationSingleton, WindowsOsService>();
-
-builder.Services.AddKeyedTransient<IOperationTransient, WindowsOsService>("windows");
-builder.Services.AddKeyedTransient<IOperationTransient, WindowsOsService>("macOs");
-
+builder.Services.AddScoped<IPollService, PollService>();
 
 var app = builder.Build();
 

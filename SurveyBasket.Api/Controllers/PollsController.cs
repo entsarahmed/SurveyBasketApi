@@ -1,22 +1,17 @@
-﻿
+﻿using SurveyBasket.Api.Services;
+
 namespace SurveyBasket.Api.Controllers
 {
     [Route("api/[controller]")]//  /api/polls
     [ApiController]
-    public class PollsController : ControllerBase
+    public class PollsController(IPollService pollService) : ControllerBase
     {
-        private readonly List<Poll> _polls = [
-            new Poll{ 
-            Id =1,
-            Title="Poll 1",
-            Description="Description 1",
-            }
-            ];
+        private readonly IPollService _pollService = pollService;
 
         [HttpGet("")]
         public IActionResult GetAll()
         {
-            return Ok(_polls);
+            return Ok(_pollService.GetAll());
         }
 
         [HttpGet("{id}")]
@@ -25,7 +20,7 @@ namespace SurveyBasket.Api.Controllers
             if (id <= 0)
                 return NotFound("Id is not Found");
 
-            var poll = _polls.FirstOrDefault(p => p.Id == id);
+            var poll = _pollService.Get(id);
 
             //if(poll is null)
             //    return NotFound("poll is null");
