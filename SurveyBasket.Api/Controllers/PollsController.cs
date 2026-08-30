@@ -1,9 +1,10 @@
-﻿using SurveyBasket.Api.Mapping;
+﻿using SurveyBasket.Api.Contracts.Request;
+using SurveyBasket.Api.Contracts.Response;
 
 namespace SurveyBasket.Api.Controllers
 {
     [Route("api/[controller]")]//  /api/polls
-    //[ApiController]
+    [ApiController]
     public class PollsController(IPollService pollService) : ControllerBase
     {
         private readonly IPollService _pollService = pollService;
@@ -12,7 +13,7 @@ namespace SurveyBasket.Api.Controllers
         public IActionResult GetAll()
         {
             var polls = _pollService.GetAll();
-            return Ok(polls.MapToResponse());
+            return Ok(polls);
         }
 
         //[HttpGet("{id:int:min(10)}")]
@@ -24,24 +25,25 @@ namespace SurveyBasket.Api.Controllers
 
             var poll = _pollService.Get(id);
 
-            //if(poll is null)
-            //    return NotFound("poll is null");
+            if(poll is null)
+              return NotFound("poll is null");
+            PollResponse response = poll;
 
 
-            return poll is null ? NotFound("Poll is not Found") : Ok(poll.MapToResponse());
+            return Ok(response);
         }
 
         [HttpPost("")]
         public IActionResult Add([FromBody]CreatePollRequest request)
         {
-            var newPoll = _pollService.Add(request.MapToPoll());
+            var newPoll = _pollService.Add(request);
             return CreatedAtAction(nameof(Get), new { id = newPoll.Id }, newPoll);
         }
 
         [HttpPut("{id}")]
         public IActionResult Update([FromRoute]int id,[FromBody] CreatePollRequest request)
         {
-          var isUpdated =  _pollService.Update(id, request.MapToPoll());
+          var isUpdated =  _pollService.Update(id, request);
 
             if (!isUpdated)
                 return NotFound();
@@ -54,12 +56,6 @@ namespace SurveyBasket.Api.Controllers
             if (!isDeleted)
                 return NotFound();
             return NoContent();
-        }
-
-        [HttpGet("test")]
-        public IActionResult Test([FromQuery] int[] id)
-        {
-            return Ok($"Test id: {id}");
         }
 
     }
