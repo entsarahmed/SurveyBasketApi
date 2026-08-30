@@ -27,7 +27,7 @@ namespace SurveyBasket.Api.Controllers
 
             if(poll is null)
               return NotFound("poll is null");
-            PollResponse response = poll;
+            var response = (PollResponse)poll;
 
 
             return Ok(response);
@@ -36,14 +36,14 @@ namespace SurveyBasket.Api.Controllers
         [HttpPost("")]
         public IActionResult Add([FromBody]CreatePollRequest request)
         {
-            var newPoll = _pollService.Add(request);
+            var newPoll = _pollService.Add((Poll)request);
             return CreatedAtAction(nameof(Get), new { id = newPoll.Id }, newPoll);
         }
 
         [HttpPut("{id}")]
         public IActionResult Update([FromRoute]int id,[FromBody] CreatePollRequest request)
         {
-          var isUpdated =  _pollService.Update(id, request);
+          var isUpdated =  _pollService.Update(id, (Poll)request);
 
             if (!isUpdated)
                 return NotFound();

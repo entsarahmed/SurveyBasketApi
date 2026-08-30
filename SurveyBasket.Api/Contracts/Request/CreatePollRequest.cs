@@ -7,7 +7,7 @@
 
 
 
-        public static implicit operator Poll(CreatePollRequest request)
+        public static explicit operator Poll(CreatePollRequest request)
         {
             return new()
             {
