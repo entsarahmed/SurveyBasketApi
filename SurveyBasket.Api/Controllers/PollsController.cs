@@ -55,5 +55,11 @@ namespace SurveyBasket.Api.Controllers
             return NoContent();
         }
 
+        [HttpGet("test")]
+        public IActionResult Test([FromQuery] int[] id)
+        {
+            return Ok($"Test id: {id}");
+        }
+
     }
 }
