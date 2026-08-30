@@ -14,7 +14,7 @@ namespace SurveyBasket.Api.Controllers
             return Ok(_pollService.GetAll());
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id:int:min(10)}")]
         public IActionResult Get(int id)
         {
             if (id <= 0)
