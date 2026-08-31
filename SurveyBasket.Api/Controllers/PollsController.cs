@@ -1,4 +1,5 @@
 ﻿using Mapster;
+using MapsterMapper;
 using SurveyBasket.Api.Contracts.Request;
 using SurveyBasket.Api.Contracts.Response;
 
@@ -6,9 +7,10 @@ namespace SurveyBasket.Api.Controllers
 {
     [Route("api/[controller]")]//  /api/polls
     [ApiController]
-    public class PollsController(IPollService pollService) : ControllerBase
+    public class PollsController(IPollService pollService, IMapper mapper) : ControllerBase
     {
         private readonly IPollService _pollService = pollService;
+        private readonly IMapper _mapper = mapper;
 
         [HttpGet("")]
         public IActionResult GetAll()
@@ -30,13 +32,14 @@ namespace SurveyBasket.Api.Controllers
               return NotFound("poll is null");
 
 
-            var config = new TypeAdapterConfig();
+            ///var config = new TypeAdapterConfig();
+            ///
+            ///config.NewConfig<Poll, PollResponse>()
+            ///    .Map(dest => dest.Notes, src => src.Description);
+            ///
+            ///var response = poll.Adapt<PollResponse>(config);
 
-            config.NewConfig<Poll, PollResponse>()
-                .Map(dest => dest.Notes, src => src.Description);
-
-            var response = poll.Adapt<PollResponse>(config);
-
+            var response = _mapper.Map<PollResponse>(poll);
             return Ok(response);
         }
 

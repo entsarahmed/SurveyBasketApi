@@ -1,3 +1,4 @@
+using Mapster;
 using SurveyBasket.Api.Middlewares;
 using SurveyBasket.Api.Services;
 
@@ -15,6 +16,9 @@ builder.Services.AddSwaggerGen();
 
 //Register the Dependency Injection
 builder.Services.AddScoped<IPollService, PollService>();
+
+//Add Mapster
+builder.Services.AddMapster();
 
 var app = builder.Build();
 
