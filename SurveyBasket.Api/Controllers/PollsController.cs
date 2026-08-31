@@ -40,6 +40,10 @@ namespace SurveyBasket.Api.Controllers
         [HttpPost("")]
         public IActionResult Add([FromBody]CreatePollRequest request)
         {
+          //  if(!ModelState.IsValid)
+          //  {
+          //      return ValidationProblem(ModelState);
+          //  }
             var newPoll = _pollService.Add(request.Adapt<Poll>());
             return CreatedAtAction(nameof(Get), new { id = newPoll.Id }, newPoll);
          
