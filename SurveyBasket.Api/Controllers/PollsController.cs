@@ -7,10 +7,9 @@ namespace SurveyBasket.Api.Controllers
 {
     [Route("api/[controller]")]//  /api/polls
     [ApiController]
-    public class PollsController(IPollService pollService, IMapper mapper) : ControllerBase
+    public class PollsController(IPollService pollService) : ControllerBase
     {
         private readonly IPollService _pollService = pollService;
-        private readonly IMapper _mapper = mapper;
 
         [HttpGet("")]
         public IActionResult GetAll()
@@ -30,16 +29,9 @@ namespace SurveyBasket.Api.Controllers
 
             if(poll is null)
               return NotFound("poll is null");
+        
+          var response = poll.Adapt<PollResponse>();
 
-
-            ///var config = new TypeAdapterConfig();
-            ///
-            ///config.NewConfig<Poll, PollResponse>()
-            ///    .Map(dest => dest.Notes, src => src.Description);
-            ///
-            ///var response = poll.Adapt<PollResponse>(config);
-
-            var response = _mapper.Map<PollResponse>(poll);
             return Ok(response);
         }
 
