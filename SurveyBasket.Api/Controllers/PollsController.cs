@@ -1,4 +1,5 @@
-﻿using SurveyBasket.Api.Contracts.Request;
+﻿using Mapster;
+using SurveyBasket.Api.Contracts.Request;
 using SurveyBasket.Api.Contracts.Response;
 
 namespace SurveyBasket.Api.Controllers
@@ -27,8 +28,14 @@ namespace SurveyBasket.Api.Controllers
 
             if(poll is null)
               return NotFound("poll is null");
-            var response = (PollResponse)poll;
 
+
+            var config = new TypeAdapterConfig();
+
+            config.NewConfig<Poll, PollResponse>()
+                .Map(dest => dest.Notes, src => src.Description);
+
+            var response = poll.Adapt<PollResponse>(config);
 
             return Ok(response);
         }
@@ -36,17 +43,19 @@ namespace SurveyBasket.Api.Controllers
         [HttpPost("")]
         public IActionResult Add([FromBody]CreatePollRequest request)
         {
-            var newPoll = _pollService.Add((Poll)request);
-            return CreatedAtAction(nameof(Get), new { id = newPoll.Id }, newPoll);
+            //var newPoll = _pollService.Add((Poll)request);
+            //return CreatedAtAction(nameof(Get), new { id = newPoll.Id }, newPoll);
+            return Ok();
+        
         }
 
         [HttpPut("{id}")]
         public IActionResult Update([FromRoute]int id,[FromBody] CreatePollRequest request)
         {
-          var isUpdated =  _pollService.Update(id, (Poll)request);
-
-            if (!isUpdated)
-                return NotFound();
+         //var isUpdated =  _pollService.Update(id, (Poll)request);
+         //
+         //  if (!isUpdated)
+         //      return NotFound();
             return NoContent();
         }
 
