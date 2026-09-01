@@ -69,24 +69,10 @@ namespace SurveyBasket.Api.Controllers
             return NoContent();
         }
 
-        [HttpGet("test")]
-        public IActionResult Test()
+        [HttpPost("test")]
+        public IActionResult Test([FromBody] Student request)
         {
-            var student = new Student
-            {
-                Id = 1,
-                FirstName = "Entsar",
-                MiddleName = "Ahmed",
-                LastName = "Abdo",
-                DateOfBirth = new DateTime(2001,2,17),
-                Department = new Department
-                {
-                    Id = 1,
-                    Name = "Computer Science"
-                }
-            };
-            var response = student.Adapt<StudentResponse>();
-            return Ok(response);
+                    return Ok("Value accepted");
         }
 
     }
