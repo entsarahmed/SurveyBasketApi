@@ -1,3 +1,4 @@
+using FluentValidation.AspNetCore;
 using Mapster;
 using MapsterMapper;
 using SurveyBasket.Api.Contracts.Validations;
@@ -9,9 +10,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+//builder.Services.AddControllers().AddFluentValidation();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 //builder.Services.AddOpenApi();
+
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -22,7 +24,9 @@ builder.Services.AddScoped<IPollService, PollService>();
 
 //builder.Services.AddScoped<IValidater<CreatePollRequest>, CreatePollRequestValidator>();
 //builder.Services.AddValidatorsFromAssemblyContaining<Program>();
-builder.Services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+
+builder.Services.AddFluentValidationAutoValidation()
+    .AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
 var mappingConfig = TypeAdapterConfig.GlobalSettings;
   mappingConfig.Scan(Assembly.GetExecutingAssembly());

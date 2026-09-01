@@ -35,19 +35,9 @@ namespace SurveyBasket.Api.Controllers
         }
 
         [HttpPost("")]
-        public IActionResult Add([FromBody]CreatePollRequest request, 
-            [FromServices] IValidator<CreatePollRequest> validator)
+        public IActionResult Add([FromBody]CreatePollRequest request)
         {
-            var validatorResult = validator.Validate(request);
-
-            if (!validatorResult.IsValid)
-            {
-                var modelState = new ModelStateDictionary();
-
-                validatorResult.Errors.ForEach(x => modelState.AddModelError(x.PropertyName, x.ErrorMessage));
-                    
-                return ValidationProblem(modelState);
-            }
+            
 
             var newPoll = _pollService.Add(request.Adapt<Poll>());
             return CreatedAtAction(nameof(Get), new { id = newPoll.Id }, newPoll);
