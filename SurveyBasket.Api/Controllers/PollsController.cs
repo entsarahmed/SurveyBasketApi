@@ -1,7 +1,4 @@
-﻿using Mapster;
-using MapsterMapper;
-using SurveyBasket.Api.Contracts.Request;
-using SurveyBasket.Api.Contracts.Response;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace SurveyBasket.Api.Controllers
 {
@@ -38,12 +35,20 @@ namespace SurveyBasket.Api.Controllers
         }
 
         [HttpPost("")]
-        public IActionResult Add([FromBody]CreatePollRequest request)
+        public IActionResult Add([FromBody]CreatePollRequest request, 
+            [FromServices] IValidator<CreatePollRequest> validator)
         {
-          //  if(!ModelState.IsValid)
-          //  {
-          //      return ValidationProblem(ModelState);
-          //  }
+            var validatorResult = validator.Validate(request);
+
+            if (!validatorResult.IsValid)
+            {
+                var modelState = new ModelStateDictionary();
+
+                validatorResult.Errors.ForEach(x => modelState.AddModelError(x.PropertyName, x.ErrorMessage));
+                    
+                return ValidationProblem(modelState);
+            }
+
             var newPoll = _pollService.Add(request.Adapt<Poll>());
             return CreatedAtAction(nameof(Get), new { id = newPoll.Id }, newPoll);
          

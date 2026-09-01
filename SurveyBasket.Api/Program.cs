@@ -1,5 +1,6 @@
 using Mapster;
 using MapsterMapper;
+using SurveyBasket.Api.Contracts.Validations;
 using SurveyBasket.Api.Middlewares;
 using SurveyBasket.Api.Services;
 using System.Reflection;
@@ -19,6 +20,9 @@ builder.Services.AddSwaggerGen();
 //Register the Dependency Injection
 builder.Services.AddScoped<IPollService, PollService>();
 
+//builder.Services.AddScoped<IValidater<CreatePollRequest>, CreatePollRequestValidator>();
+//builder.Services.AddValidatorsFromAssemblyContaining<Program>();
+builder.Services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
 var mappingConfig = TypeAdapterConfig.GlobalSettings;
   mappingConfig.Scan(Assembly.GetExecutingAssembly());

@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace SurveyBasket.Api.Contracts.Request
+﻿namespace SurveyBasket.Api.Contracts.Request
 {
     public record CreatePollRequest(
       // [Required(ErrorMessage = "Required Field!")] 
