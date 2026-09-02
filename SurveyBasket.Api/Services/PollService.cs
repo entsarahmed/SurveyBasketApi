@@ -10,7 +10,7 @@ namespace SurveyBasket.Api.Services
             new Poll{
                 Id = 1,
                 Title = "Poll 1",
-                Description = "Description 1",
+                Summary = "Summary 1",
             }
             ];
         public IEnumerable<Poll> GetAll() => _polls;
@@ -34,7 +34,7 @@ namespace SurveyBasket.Api.Services
             if (currentPoll is null)
                 return false;
             currentPoll.Title = poll.Title;
-            currentPoll.Description = poll.Description;
+            currentPoll.Summary = poll.Summary;
             return true;
 
         }

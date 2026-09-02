@@ -9,7 +9,7 @@ global using SurveyBasket.Api.Contracts.Validations;
 
 
 global using Microsoft.AspNetCore.Mvc;
-global using SurveyBasket.Api.Models;
+global using SurveyBasket.Api.Entities;
 global using SurveyBasket.Api.Services;
 global using SurveyBasket.Api.Contracts.Response;
 global using SurveyBasket.Api.Contracts.Request;

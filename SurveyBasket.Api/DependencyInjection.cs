@@ -1,11 +1,17 @@
 ﻿
 
+using Microsoft.EntityFrameworkCore;
+using SurveyBasket.Api.Persistence;
+using System.Runtime.CompilerServices;
+
 namespace SurveyBasket.Api
 {
     public static class DependencyInjection
     {
-        public static IServiceCollection AddDependencies(this IServiceCollection services)
+        public static IServiceCollection AddDependencies(this IServiceCollection services, IConfiguration configuration)
         {
+            services.AddDatabaseConnectionString(configuration);
+
             // Add services to the container.
 
            services.AddControllers();//.AddFluentValidation();
@@ -32,6 +38,19 @@ namespace SurveyBasket.Api
             //Add Mapster
             services.AddSingleton<IMapper>(new Mapper(mappingConfig));
 
+
+            return services;
+        }
+
+       public static IServiceCollection AddDatabaseConnectionString(this IServiceCollection services, IConfiguration configuration)
+        {
+            //Resiteration of Connection String
+            var connectionString = configuration.GetConnectionString("DefaultConnection") ??
+                throw new InvalidOperationException("Connection String 'DefaultConnection' not found.");
+
+            services.AddDbContext<ApplicationDbContext>(options =>
+            options.UseSqlServer(connectionString)
+            );
 
             return services;
         }
