@@ -1,16 +1,13 @@
 using FluentValidation.AspNetCore;
-using Mapster;
 using MapsterMapper;
-using SurveyBasket.Api.Contracts.Validations;
 using SurveyBasket.Api.Middlewares;
-using SurveyBasket.Api.Services;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-//builder.Services.AddControllers().AddFluentValidation();
+builder.Services.AddControllers();//.AddFluentValidation();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 //builder.Services.AddOpenApi();
 
@@ -57,6 +54,9 @@ if (app.Environment.IsDevelopment())
 app.UseCustomMiddleware();
 
 app.UseHttpsRedirection();
+
+
+//app.UseAuthentication();
 
 app.UseAuthorization();
 
