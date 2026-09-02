@@ -64,11 +64,5 @@ namespace SurveyBasket.Api.Controllers
             return NoContent();
         }
 
-        [HttpPost("test")]
-        public IActionResult Test([FromBody] Student request)
-        {
-                    return Ok("Value accepted");
-        }
-
     }
 }
