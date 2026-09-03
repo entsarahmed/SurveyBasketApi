@@ -21,24 +21,29 @@
             return poll;
         }
 
-        //public bool Update(int id, Poll poll)
-        //{
-        //    var currentPoll = Get(id);
-        //    if (currentPoll is null)
-        //        return false;
-        //    currentPoll.Title = poll.Title;
-        //    currentPoll.Summary = poll.Summary;
-        //    return true;
+        public async Task<bool> UpdateAsync(int id, Poll poll, CancellationToken cancellationToken = default)
+        {
+            var currentPoll =await GetAsync(id,cancellationToken);
+            if (currentPoll is null)
+                return false;
+            currentPoll.Title = poll.Title;
+            currentPoll.Summary = poll.Summary;
+            currentPoll.IsPublished = poll.IsPublished;
+            currentPoll.StartsAt = poll.StartsAt;
+            currentPoll.EndsAt = poll.EndsAt;
+            await _context.SaveChangesAsync(cancellationToken);
+            return true;
 
-        //}
+        }
 
-        //public bool Delete(int id)
-        //{
-        //    var poll = Get(id);
-        //    if (poll is null)
-        //        return false;
-        //    _polls.Remove(poll);
-        //    return true;
-        //}
+        public async Task<bool> DeleteAsync(int id,CancellationToken cancellationToken = default)
+        {
+            var poll = await GetAsync(id, cancellationToken);
+            if (poll is null)
+                return false;
+            _context.Polls.Remove(poll);
+            await _context.SaveChangesAsync(cancellationToken);
+            return true;
+        }
     }
 }

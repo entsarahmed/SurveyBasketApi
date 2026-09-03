@@ -1,8 +1,8 @@
 ﻿namespace SurveyBasket.Api.Contracts.Validations
 {
-    public class CreatePollRequestValidator:AbstractValidator<CreatePollRequest>
+    public class PollRequestValidator:AbstractValidator<PollRequest>
     {
-        public CreatePollRequestValidator()
+        public PollRequestValidator()
         {
             RuleFor(x => x.Title)
                 .NotEmpty()
