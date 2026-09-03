@@ -12,7 +12,7 @@ using SurveyBasket.Api.Persistence;
 namespace SurveyBasket.Api.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260902165028_InitialCreate")]
+    [Migration("20260902205603_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />

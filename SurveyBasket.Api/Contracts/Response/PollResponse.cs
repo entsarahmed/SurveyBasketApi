@@ -2,7 +2,10 @@
 {
     public record PollResponse(int Id,
         string Title,
-        string Description
+        string Summary,
+        string IsPublished,
+        DateOnly StartsAt,
+        DateOnly EndsAt
 
     );
 }

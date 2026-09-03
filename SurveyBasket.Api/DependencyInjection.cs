@@ -10,7 +10,7 @@ namespace SurveyBasket.Api
     {
         public static IServiceCollection AddDependencies(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddDatabaseConnectionString(configuration);
+
 
             // Add services to the container.
 
@@ -38,7 +38,7 @@ namespace SurveyBasket.Api
             //Add Mapster
             services.AddSingleton<IMapper>(new Mapper(mappingConfig));
 
-
+            services.AddDatabaseConnectionString(configuration);
             return services;
         }
 

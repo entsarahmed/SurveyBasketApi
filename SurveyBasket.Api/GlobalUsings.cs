@@ -7,7 +7,7 @@ global using SurveyBasket.Api.Middlewares;
 global using System.Reflection;
 global using Microsoft.EntityFrameworkCore;
 global using Microsoft.EntityFrameworkCore.Metadata.Builders;
-
+global using SurveyBasket.Api.Persistence;
 
 global using Microsoft.AspNetCore.Mvc;
 global using SurveyBasket.Api.Entities;

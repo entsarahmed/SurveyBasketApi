@@ -1,51 +1,44 @@
-﻿
-using Microsoft.AspNetCore.Http.HttpResults;
-using SurveyBasket.Api.Controllers;
-
-namespace SurveyBasket.Api.Services
+﻿namespace SurveyBasket.Api.Services
 {
-    public class PollService : IPollService
+    public class PollService(ApplicationDbContext context) : IPollService
     {
-        private static readonly List<Poll> _polls = [
-            new Poll{
-                Id = 1,
-                Title = "Poll 1",
-                Summary = "Summary 1",
-            }
-            ];
-        public IEnumerable<Poll> GetAll() => _polls;
+
+        private readonly ApplicationDbContext _context = context;
+        public async Task<IEnumerable<Poll>> GetAllAsync() => 
+            await _context.Polls.AsNoTracking().ToListAsync();
         
 
-        public Poll? Get(int id)
-        =>
-            _polls.FirstOrDefault(p => p.Id == id);
+         public async Task<Poll?> GetAsync(int id)
+          =>
+           await _context.Polls.FindAsync(id);
 
-        public Poll Add(Poll poll)
+        public async Task<Poll> AddAsync(Poll poll)
         {
-            poll.Id = _polls.Count + 1;
+            await _context.Polls.AddAsync(poll);
 
-            _polls.Add(poll);
+            _context.SaveChanges();
+
             return poll;
         }
 
-        public bool Update(int id, Poll poll)
-        {
-            var currentPoll = Get(id);
-            if (currentPoll is null)
-                return false;
-            currentPoll.Title = poll.Title;
-            currentPoll.Summary = poll.Summary;
-            return true;
+        //public bool Update(int id, Poll poll)
+        //{
+        //    var currentPoll = Get(id);
+        //    if (currentPoll is null)
+        //        return false;
+        //    currentPoll.Title = poll.Title;
+        //    currentPoll.Summary = poll.Summary;
+        //    return true;
 
-        }
+        //}
 
-        public bool Delete(int id)
-        {
-            var poll = Get(id);
-            if (poll is null)
-                return false;
-            _polls.Remove(poll);
-            return true;
-        }
+        //public bool Delete(int id)
+        //{
+        //    var poll = Get(id);
+        //    if (poll is null)
+        //        return false;
+        //    _polls.Remove(poll);
+        //    return true;
+        //}
     }
 }
