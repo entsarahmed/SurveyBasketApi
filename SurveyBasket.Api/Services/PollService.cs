@@ -28,7 +28,6 @@
                 return false;
             currentPoll.Title = poll.Title;
             currentPoll.Summary = poll.Summary;
-            currentPoll.IsPublished = poll.IsPublished;
             currentPoll.StartsAt = poll.StartsAt;
             currentPoll.EndsAt = poll.EndsAt;
             await _context.SaveChangesAsync(cancellationToken);
@@ -45,5 +44,16 @@
             await _context.SaveChangesAsync(cancellationToken);
             return true;
         }
+        public async Task<bool> TogglePublishStatusAsync(int id, CancellationToken cancellationToken = default)
+        {
+            var poll = await GetAsync(id, cancellationToken);
+            if (poll is null)
+                return false;
+            poll.IsPublished = !poll.IsPublished;
+            await _context.SaveChangesAsync(cancellationToken);
+
+            return true;
+        }
+
     }
 }

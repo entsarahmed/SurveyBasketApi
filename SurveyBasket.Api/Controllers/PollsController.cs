@@ -64,5 +64,15 @@ namespace SurveyBasket.Api.Controllers
           return NoContent();
       }
 
+        [HttpPut("{id}/togglepublish")]
+        public async Task<IActionResult> TogglePublish([FromRoute] int id, CancellationToken cancellationToken)
+        {
+            var isToggled = await _pollService.TogglePublishStatusAsync(id, cancellationToken);
+
+            if (!isToggled)
+                return NotFound();
+            return NoContent();
+        }
+
     }
 }
