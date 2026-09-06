@@ -8,9 +8,9 @@ global using System.Reflection;
 global using Microsoft.EntityFrameworkCore;
 global using Microsoft.EntityFrameworkCore.Metadata.Builders;
 global using SurveyBasket.Api.Persistence;
+global using SurveyBasket.Api.Contracts.Authentication;
 
 global using Microsoft.AspNetCore.Mvc;
 global using SurveyBasket.Api.Entities;
 global using SurveyBasket.Api.Services;
-global using SurveyBasket.Api.Contracts.Response;
-global using SurveyBasket.Api.Contracts.Request;
+global using SurveyBasket.Api.Contracts;

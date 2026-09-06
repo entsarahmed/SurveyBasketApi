@@ -39,6 +39,10 @@ namespace SurveyBasket.Api
             services.AddSingleton<IMapper>(new Mapper(mappingConfig));
 
             services.AddDatabaseConnectionString(configuration);
+
+            services.AddScoped<IAuthService, AuthService>();
+            
+            
             return services;
         }
 

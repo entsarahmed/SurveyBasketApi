@@ -1,6 +1,4 @@
-﻿using SurveyBasket.Api.Contracts.Response;
-
-namespace SurveyBasket.Api.Entities
+﻿namespace SurveyBasket.Api.Entities
 {
     public sealed class Poll
     {
