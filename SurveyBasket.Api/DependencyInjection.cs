@@ -1,7 +1,6 @@
-﻿
-
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using SurveyBasket.Api.Authentication;
 using SurveyBasket.Api.Persistence;
 using System.Runtime.CompilerServices;
 
@@ -60,6 +59,8 @@ namespace SurveyBasket.Api
         private static IServiceCollection AddAuthConfig(this IServiceCollection services)
         {
             services.AddScoped<IAuthService, AuthService>();
+
+            services.AddSingleton<IJwtProvider, JwtProvider>();
 
            services.AddIdentity<ApplicationUser, IdentityRole>()
                       .AddEntityFrameworkStores<ApplicationDbContext>();
