@@ -1,5 +1,6 @@
 ﻿
 
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SurveyBasket.Api.Persistence;
 using System.Runtime.CompilerServices;
@@ -39,14 +40,12 @@ namespace SurveyBasket.Api
             services.AddSingleton<IMapper>(new Mapper(mappingConfig));
 
             services.AddDatabaseConnectionString(configuration);
-
-            services.AddScoped<IAuthService, AuthService>();
-            
-            
+            services.AddAuthConfig();
+           
             return services;
         }
 
-       public static IServiceCollection AddDatabaseConnectionString(this IServiceCollection services, IConfiguration configuration)
+       private static IServiceCollection AddDatabaseConnectionString(this IServiceCollection services, IConfiguration configuration)
         {
             //Resiteration of Connection String
             var connectionString = configuration.GetConnectionString("DefaultConnection") ??
@@ -55,6 +54,15 @@ namespace SurveyBasket.Api
             services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(connectionString)
             );
+
+            return services;
+        }
+        private static IServiceCollection AddAuthConfig(this IServiceCollection services)
+        {
+            services.AddScoped<IAuthService, AuthService>();
+
+           services.AddIdentity<ApplicationUser, IdentityRole>()
+                      .AddEntityFrameworkStores<ApplicationDbContext>();
 
             return services;
         }
