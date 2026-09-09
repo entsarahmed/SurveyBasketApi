@@ -1,8 +1,12 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.IdentityModel.Tokens.Experimental;
 using SurveyBasket.Api.Authentication;
 using SurveyBasket.Api.Persistence;
 using System.Runtime.CompilerServices;
+using System.Text;
 
 namespace SurveyBasket.Api
 {
@@ -39,8 +43,9 @@ namespace SurveyBasket.Api
             services.AddSingleton<IMapper>(new Mapper(mappingConfig));
 
             services.AddDatabaseConnectionString(configuration);
+
+
             services.AddAuthConfig();
-           
             return services;
         }
 
@@ -63,7 +68,27 @@ namespace SurveyBasket.Api
             services.AddSingleton<IJwtProvider, JwtProvider>();
 
            services.AddIdentity<ApplicationUser, IdentityRole>()
-                      .AddEntityFrameworkStores<ApplicationDbContext>();
+                     .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            services.AddAuthentication(options => {
+
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+
+            })
+                .AddJwtBearer(e => {
+                    e.SaveToken = true;
+                    e.TokenValidationParameters = new TokenValidationParameters { 
+                        ValidateIssuerSigningKey = true,
+                        ValidateIssuer = true,
+                         ValidateAudience= true,
+                         ValidateLifetime = true,
+                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("TYWT5taxv+JUqPfjDGyfMwCNNAQy0G50q5rGP0GwK/8=")),
+                         ValidIssuer = "SurveyBasketApp",
+                         ValidAudience = "SurveyBasketApp Users",
+
+                    };
+                });
 
             return services;
         }

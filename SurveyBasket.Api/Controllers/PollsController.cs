@@ -1,15 +1,19 @@
-﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using SurveyBasket.Api.Contracts.Polls;
 
 namespace SurveyBasket.Api.Controllers
 {
     [Route("api/[controller]")]//  /api/polls
     [ApiController]
-    public class PollsController(IPollService pollService) : ControllerBase
+    
+    public class PollsController(IPollService pollService,IConfiguration configuration) : ControllerBase
     {
         private readonly IPollService _pollService = pollService;
+        private readonly IConfiguration _configuration = configuration;
 
         [HttpGet("")]
+        [Authorize]
         public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
         {
             var polls = await _pollService.GetAllAsync(cancellationToken);
@@ -75,5 +79,18 @@ namespace SurveyBasket.Api.Controllers
             return NoContent();
         }
 
+        [HttpGet("Test")]
+        public IActionResult Test()
+        {
+            var config = new
+            {
+                //MyKey = _configuration["MyKey"]
+                //MyKey = _configuration.GetConnectionString("DefaultConnection")
+               // MyKey = _configuration["ConnectionStrings:DefaultConnection"]
+              MyKey = _configuration["Logging:LogLevel:Default"]
+            
+            };
+            return Ok(config);
+        }
     }
 }

@@ -1,9 +1,12 @@
 
+
+
 using Microsoft.EntityFrameworkCore;
 using SurveyBasket.Api;
 using SurveyBasket.Api.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
+
 
 builder.Services.AddDependencies(builder.Configuration);
 
@@ -30,8 +33,6 @@ app.UseHttpsRedirection();
 //app.UseAuthentication();
 
 app.UseAuthorization();
-
-
 
 app.MapControllers();
 

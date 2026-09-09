@@ -41,7 +41,7 @@ namespace SurveyBasket.Api.Authentication
                 signingCredentials: signingCredentials
                 );
 
-            return (token: new JwtSecurityTokenHandler().WriteToken(token), expiresIn: expiresIn);
+            return (token: new JwtSecurityTokenHandler().WriteToken(token), expiresIn: expiresIn * 60);
         }
     }
 }
