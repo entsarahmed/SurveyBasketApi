@@ -10,7 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDependencies(builder.Configuration);
 
-
+///  appsettings.Development.json → appsettings.json → launchSettings.json
 
 
 var app = builder.Build();
@@ -18,7 +18,6 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 { 
-
     app.UseSwagger();
     app.UseSwaggerUI();
 }
