@@ -84,10 +84,10 @@ namespace SurveyBasket.Api.Controllers
         {
             var config = new
             {
-                //MyKey = _configuration["MyKey"]
+                MyKey = _configuration["MyKey"],
                 //MyKey = _configuration.GetConnectionString("DefaultConnection")
                // MyKey = _configuration["ConnectionStrings:DefaultConnection"]
-              MyKey = _configuration["Logging:LogLevel:Default"],
+             // MyKey = _configuration["Logging:LogLevel:Default"],
                Env = _configuration["ASPNETCORE_ENVIRONMENT"],
                OneDrive = _configuration["OneDrive"]
             };
