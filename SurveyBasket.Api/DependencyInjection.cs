@@ -45,7 +45,7 @@ namespace SurveyBasket.Api
             services.AddDatabaseConnectionString(configuration);
 
 
-            services.AddAuthConfig();
+            services.AddAuthConfig(configuration);
             return services;
         }
 
@@ -61,7 +61,7 @@ namespace SurveyBasket.Api
 
             return services;
         }
-        private static IServiceCollection AddAuthConfig(this IServiceCollection services)
+        private static IServiceCollection AddAuthConfig(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddScoped<IAuthService, AuthService>();
 
@@ -83,12 +83,18 @@ namespace SurveyBasket.Api
                         ValidateIssuer = true,
                          ValidateAudience= true,
                          ValidateLifetime = true,
-                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("TYWT5taxv+JUqPfjDGyfMwCNNAQy0G50q5rGP0GwK/8=")),
-                         ValidIssuer = "SurveyBasketApp",
-                         ValidAudience = "SurveyBasketApp Users",
+                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"]!)),
+                         ValidIssuer = configuration["Jwt:Issuer"],
+                         ValidAudience = configuration["Jwt:Audience"]
 
                     };
                 });
+            var test = new {
+                IssuerSigningKey = configuration["Jwt:Key"],
+                ValidIssuer = configuration["Jwt:Issuer"],
+                ValidAudience = configuration["Jwt:Audience"]
+            };
+
 
             return services;
         }
