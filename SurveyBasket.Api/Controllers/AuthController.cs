@@ -5,10 +5,17 @@ namespace SurveyBasket.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AuthController(IAuthService  authService, IOptions<JwtOptions> jwtOptions) : ControllerBase
+    public class AuthController(IAuthService  authService, 
+        IOptions<JwtOptions> options,
+        IOptionsSnapshot<JwtOptions> optionsSnapshot,
+        IOptionsMonitor<JwtOptions> optionsMonitor
+        ) : ControllerBase
     {
         private readonly IAuthService _authService = authService;
-        private readonly JwtOptions _jwtOptions = jwtOptions.Value;
+        private readonly IOptions<JwtOptions> _options = options;
+        private readonly IOptionsSnapshot<JwtOptions> _optionsSnapshot = optionsSnapshot;
+        private readonly IOptionsMonitor<JwtOptions> _optionsMonitor = optionsMonitor;
+       
 
         [HttpPost("")]
         public async Task<IActionResult> LoginAsync(LoginRequest request, CancellationToken cancellationToken) 
@@ -22,7 +29,25 @@ namespace SurveyBasket.Api.Controllers
         [HttpGet("Test")]
         public IActionResult Test()
         {
-            return Ok(_jwtOptions.Audience);
+            var values = new
+            {
+                IOptionsValue = _options.Value.ExpiryMinutes,
+                IOptionsSnapshotValue = _optionsSnapshot.Value.ExpiryMinutes,
+                IOptionsMonitorValue = _optionsMonitor.CurrentValue.ExpiryMinutes
+            };
+            Thread.Sleep(5000);
+
+            var values02 = new
+            {
+                IOptionsValue = _options.Value.ExpiryMinutes,
+                IOptionsSnapshotValue = _optionsSnapshot.Value.ExpiryMinutes,
+                IOptionsMonitorValue = _optionsMonitor.CurrentValue.ExpiryMinutes
+            };
+            return Ok(new {
+                values,
+                values02
+
+});
         }
     }
 }
