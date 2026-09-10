@@ -88,9 +88,9 @@ namespace SurveyBasket.Api
                         ValidateIssuer = true,
                          ValidateAudience= true,
                          ValidateLifetime = true,
-                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JwtSettings?.Key!),
+                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JwtSettings?.Key!)),
                          ValidIssuer = JwtSettings?.Issuer,
-                         ValidAudience = JwtSettings?.Audience
+                         ValidAudience = JwtSettings?.Audience,
 
                     };
                 });
