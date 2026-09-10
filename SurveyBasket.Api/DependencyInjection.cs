@@ -18,26 +18,26 @@ namespace SurveyBasket.Api
 
             // Add services to the container.
 
-           services.AddControllers();//.AddFluentValidation();
-                                    // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-                                    //builder.Services.AddOpenApi();
-           
-           
-           services.AddEndpointsApiExplorer();
-           services.AddSwaggerGen();
+            services.AddControllers();//.AddFluentValidation();
+                                      // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
+                                      //builder.Services.AddOpenApi();
+
+
+            services.AddEndpointsApiExplorer();
+            services.AddSwaggerGen();
 
 
             //Register the Dependency Injection
             services.AddScoped<IPollService, PollService>();
 
-          // services.AddScoped<IValidater<CreatePollRequest>, CreatePollRequestValidator>();
-          // services.AddValidatorsFromAssemblyContaining<Program>();
+            // services.AddScoped<IValidater<CreatePollRequest>, CreatePollRequestValidator>();
+            // services.AddValidatorsFromAssemblyContaining<Program>();
 
-           services
-                .AddFluentValidationAutoValidation()
-                .AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+            services
+                 .AddFluentValidationAutoValidation()
+                 .AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
-           var mappingConfig = TypeAdapterConfig.GlobalSettings;
+            var mappingConfig = TypeAdapterConfig.GlobalSettings;
             mappingConfig.Scan(Assembly.GetExecutingAssembly());
             //Add Mapster
             services.AddSingleton<IMapper>(new Mapper(mappingConfig));
@@ -49,7 +49,7 @@ namespace SurveyBasket.Api
             return services;
         }
 
-       private static IServiceCollection AddDatabaseConnectionString(this IServiceCollection services, IConfiguration configuration)
+        private static IServiceCollection AddDatabaseConnectionString(this IServiceCollection services, IConfiguration configuration)
         {
             //Resiteration of Connection String
             var connectionString = configuration.GetConnectionString("DefaultConnection") ??
@@ -67,39 +67,41 @@ namespace SurveyBasket.Api
 
             services.AddSingleton<IJwtProvider, JwtProvider>();
 
-            services.Configure<JwtOptions>(configuration.GetSection(JwtOptions.SectionName));
+            // services.Configure<JwtOptions>(configuration.GetSection(JwtOptions.SectionName));
+
+            services.AddOptions<JwtOptions>()
+                .BindConfiguration(JwtOptions.SectionName)
+                .ValidateDataAnnotations()
+                .ValidateOnStart();
 
             var JwtSettings = configuration.GetSection(JwtOptions.SectionName)
                 .Get<JwtOptions>();
 
-           services.AddIdentity<ApplicationUser, IdentityRole>()
-                     .AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddIdentity<ApplicationUser, IdentityRole>()
+                      .AddEntityFrameworkStores<ApplicationDbContext>();
 
-            services.AddAuthentication(options => {
+            services.AddAuthentication(options =>
+            {
 
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 
             })
-                .AddJwtBearer(e => {
+                .AddJwtBearer(e =>
+                {
                     e.SaveToken = true;
-                    e.TokenValidationParameters = new TokenValidationParameters { 
+                    e.TokenValidationParameters = new TokenValidationParameters
+                    {
                         ValidateIssuerSigningKey = true,
                         ValidateIssuer = true,
-                         ValidateAudience= true,
-                         ValidateLifetime = true,
-                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JwtSettings?.Key!)),
-                         ValidIssuer = JwtSettings?.Issuer,
-                         ValidAudience = JwtSettings?.Audience,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JwtSettings?.Key!)),
+                        ValidIssuer = JwtSettings?.Issuer,
+                        ValidAudience = JwtSettings?.Audience,
 
                     };
                 });
-            var test = new {
-                IssuerSigningKey = configuration["Jwt:Key"],
-                ValidIssuer = configuration["Jwt:Issuer"],
-                ValidAudience = configuration["Jwt:Audience"]
-            };
-
 
             return services;
         }
