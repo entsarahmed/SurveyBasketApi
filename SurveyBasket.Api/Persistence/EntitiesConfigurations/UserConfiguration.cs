@@ -9,6 +9,11 @@
 
             builder.Property(x => x.LastName)
                 .HasMaxLength(100);
+
+            builder.OwnsMany(x => x.RefreshTokens)
+                .ToTable("RefreshTokens")
+                .WithOwner()
+                .HasForeignKey("UserId");
         }
     }
 }
