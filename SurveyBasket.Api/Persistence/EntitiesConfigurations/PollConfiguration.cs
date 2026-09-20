@@ -10,6 +10,8 @@
 
             builder.Property(x => x.Summary).HasMaxLength(1500);
 
+
+          //  builder.Property(x => x.CreatedOn).HasDefaultValueSql("GETDATE()");
         }
     }
 }

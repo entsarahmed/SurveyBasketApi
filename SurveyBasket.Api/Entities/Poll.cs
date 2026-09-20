@@ -1,6 +1,8 @@
-﻿namespace SurveyBasket.Api.Entities
+﻿using Microsoft.EntityFrameworkCore.Migrations.Operations;
+
+namespace SurveyBasket.Api.Entities
 {
-    public sealed class Poll
+    public sealed class Poll : AuditableEntity
     {
         public int Id { get; set; }
         public string Title { get; set; } = string.Empty;
